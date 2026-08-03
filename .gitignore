@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# build output
+dist/
+**/dist/
+build/
+
+# env files — никогда не коммитьте секреты!
+.env
+.env.local
+**/.env
+**/.env.local
+
+# prisma
+**/prisma/dev.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor/OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
