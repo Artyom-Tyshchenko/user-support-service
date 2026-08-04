@@ -52,10 +52,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       }
     }
 
-    this.logger.error(exception);
-    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: 'Внутренняя ошибка сервера',
-    });
+   this.logger.error(exception);
+   response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+     success: false,
+     message: 'Внутренняя ошибка сервера',
+     debug: exception instanceof Error ? exception.message : String(exception),
+   });
   }
 }
