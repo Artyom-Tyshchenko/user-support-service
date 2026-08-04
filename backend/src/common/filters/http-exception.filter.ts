@@ -56,7 +56,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
      success: false,
      message: 'Внутренняя ошибка сервера',
-     debug: exception instanceof Error ? exception.message : String(exception),
+     debug: exception instanceof Error
+     ? { name: exception.name, message: exception.message, stack: exception.stack }
+     : JSON.stringify(exception, Object.getOwnPropertyNames(exception ?? {})),
    });
   }
 }
