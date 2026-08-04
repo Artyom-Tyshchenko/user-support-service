@@ -1,4 +1,4 @@
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance, Type } from 'class-transformer';
 import {
   IsEnum,
   IsInt,
@@ -15,6 +15,7 @@ enum NodeEnv {
 }
 
 class EnvironmentVariables {
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   PORT = 3000;
@@ -32,6 +33,7 @@ class EnvironmentVariables {
   @IsString()
   JWT_EXPIRES_IN = '7d';
 
+  @Type(() => Number)
   @IsInt()
   BCRYPT_SALT_ROUNDS = 12;
 
