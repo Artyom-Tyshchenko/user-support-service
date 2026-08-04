@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import helmet from 'helmet';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, UnprocessableEntityException } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -28,19 +28,16 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       errorHttpStatusCode: 422,
-      exceptionFactory: (errors) => {
-        const fieldErrors: Record<string, string[]> = {};
-        for (const error of errors) {
-          fieldErrors[error.property] = Object.values(error.constraints ?? {});
-        }
-        return {
-          getResponse: () => ({
-            message: 'Ошибка валидации',
-            errors: fieldErrors,
-          }),
-          getStatus: () => 422,
-        };
-      },
+  exceptionFactory: (errors) => {
+     const fieldErrors: Record<string, string[]> = {};
+     for (const error of errors) {
+       fieldErrors[error.property] = Object.values(error.constraints ?? {});
+     }
+     return new UnprocessableEntityException({
+       message: 'Ошибка валидации',
+       errors: fieldErrors,
+     });
+   },
     }),
   );
 
